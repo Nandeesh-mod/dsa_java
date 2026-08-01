@@ -98,11 +98,10 @@ public class Tree {
     public void isPresentHelper(TreeNode rootNode, Integer val){
         if(rootNode == null){
             return;
-        }else{
+        }else {
             isPresentHelper(rootNode.getLeftChild(), val);
-            if(val == rootNode.getVal()){
-                this.searchedValue =  rootNode;
-            }
+            if (val.equals(rootNode.getVal()))
+                this.searchedValue = rootNode;
             isPresentHelper(rootNode.getRightChild(), val);
         }
     }
