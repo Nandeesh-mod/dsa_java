@@ -4,6 +4,9 @@ public class Tree {
     private TreeNode root;
     private TreeNode searchedValue;
 
+    private TreeNode parentNode;
+    private TreeNode SuccessorParent;
+
     public Tree(){
         searchedValue = null;
     }
@@ -81,8 +84,16 @@ public class Tree {
 
     }
 
-    public TreeNode delTreeNode(Integer val){
-        return null;
+    public void delTreeNode(Integer val){
+        this.root = delNodeHelper(this.root, val);
+    }
+
+    public TreeNode Successor(TreeNode rootNode){
+        while(rootNode.getLeftChild() != null){
+            SuccessorParent = rootNode;
+            rootNode = rootNode.getLeftChild();
+        }
+        return rootNode;
     }
 
     public TreeNode isNodePresent(Integer val){  // search time is log(n) becuase we are having 64 nodes log,base2 (64) 6 in balanced binay tree
@@ -100,9 +111,40 @@ public class Tree {
             return;
         }else {
             isPresentHelper(rootNode.getLeftChild(), val);
-            if (val.equals(rootNode.getVal()))
+            if (val.equals(rootNode.getVal())) {
                 this.searchedValue = rootNode;
+            }
             isPresentHelper(rootNode.getRightChild(), val);
         }
+    }
+
+    public TreeNode delNodeHelper(TreeNode rootNode, Integer val){
+        if(rootNode == null){
+            return null;
+        }
+
+        if(val < rootNode.getVal()) {
+            rootNode.setLeftChild(delNodeHelper(rootNode.getLeftChild(), val));
+        }else if(val > rootNode.getVal()){
+            rootNode.setRightChild(delNodeHelper(rootNode.getRightChild(), val));
+        }else{
+            if(rootNode.getLeftChild() == null && rootNode.getRightChild() == null){
+                return null;
+            }
+
+            // only one child
+            if(rootNode.getLeftChild() == null){
+                return rootNode.getRightChild();
+            }
+
+            if(rootNode.getRightChild() == null){
+                return rootNode.getLeftChild();
+            }
+
+            TreeNode successor = Successor(rootNode.getRightChild());
+            rootNode.setVal(successor.getVal());
+            rootNode.setRightChild(delNodeHelper(rootNode.getRightChild(), rootNode.getVal()));
+        }
+        return rootNode;
     }
 }

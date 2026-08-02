@@ -24,10 +24,12 @@ public class Main {
 
         System.out.println();
 
-        TreeNode res = tree.isNodePresent(15);
-        if(res != null){
-            System.out.println(res.getVal());
-        }
+//        TreeNode res = tree.isNodePresent(15);
+//        if(res != null){
+//            System.out.println(res.getVal());
+//        }
+
+        tree.delTreeNode(12);
     }
 
     public static void helper(Integer counter){
